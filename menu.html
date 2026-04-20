@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Nocturnal — People</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="page-menu">
+
+<div class="float-orb orb-1"></div>
+<div class="float-orb orb-2"></div>
+
+<button class="btn-back" onclick="goToMenu2()">← back</button>
+
+<div class="menu-wrap">
+  <p class="eyebrow">✦ people</p>
+  <h2 class="page-title">whose memories?</h2>
+  <div class="menu-container" id="menuContainer"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+const supabase = window.supabase.createClient(
+  "https://zlbbltgvhhszvdkuqmve.supabase.co",
+  "sb_publishable_2O18NtGThhCRupWuDryOPw_b8VJQ4_5"
+);
+</script>
+<script src="main.js"></script>
+</body>
+</html>

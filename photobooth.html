@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Nocturnal — Photobooth</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="page-gallery">
+
+<div class="float-orb orb-1"></div>
+<div class="float-orb orb-2"></div>
+
+<button class="btn-back" onclick="goToMenu2()">← back</button>
+
+<div class="gallery-wrap">
+  <p class="eyebrow">✦ photobooth</p>
+  <h2 class="page-title">our moments</h2>
+  <div class="gallery" id="gallery"></div>
+</div>
+
+<div class="popup" id="popup" onclick="closePopup()">
+  <img id="popupImg">
+</div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+const { createClient } = supabase;
+const supabaseClient = createClient(
+  "https://zlbbltgvhhszvdkuqmve.supabase.co",
+  "sb_publishable_2O18NtGThhCRupWuDryOPw_b8VJQ4_5"
+);
+</script>
+<script src="gallery.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    initGallery("photobooth");
+  });
+</script>
+<script src="main.js"></script>
+</body>
+</html>
