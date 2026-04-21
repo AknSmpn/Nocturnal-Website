@@ -4,17 +4,72 @@
 <meta charset="UTF-8">
 <title>Nocturnal — Photobooth</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="photobooth.css">
 </head>
-<body class="page-gallery">
+<body class="page-photobooth">
 
 <div class="float-orb orb-1"></div>
 <div class="float-orb orb-2"></div>
 
-<button class="btn-back" onclick="goToMenu2()">← back</button>
+<button class="btn-back" id="backBtn" onclick="handleBack()">← back</button>
 
-<div class="gallery-wrap">
+<!-- STEP 1: PILIH LAYOUT -->
+<div class="pb-wrap" id="stepLayout">
   <p class="eyebrow">✦ photobooth</p>
-  <h2 class="page-title">our moments</h2>
+  <h2 class="page-title">choose your layout</h2>
+  <p class="pb-sub">pilih bingkai favoritmu</p>
+  <div class="layout-grid" id="layoutGrid"></div>
+</div>
+
+<!-- STEP 2: PILIH EFEK -->
+<div class="pb-wrap" id="stepEffect" style="display:none;">
+  <p class="eyebrow">✦ photobooth</p>
+  <h2 class="page-title">choose your effect</h2>
+  <p class="pb-sub">pilih efek favoritmu</p>
+  <div class="effect-grid" id="effectGrid"></div>
+  <button class="pb-btn-next" onclick="goToCamera()">mulai foto →</button>
+</div>
+
+<!-- STEP 3: KAMERA -->
+<div class="pb-wrap" id="stepCamera" style="display:none;">
+  <p class="eyebrow">✦ photobooth</p>
+  <h2 class="page-title" id="cameraTitle">strike a pose</h2>
+  <p class="pb-sub" id="shotCounter"></p>
+
+  <div class="pb-camera-box" id="cameraBox">
+    <video id="video" autoplay playsinline></video>
+    <canvas id="effectCanvas"></canvas>
+    <div class="pb-overlay-text">nocturnal</div>
+    <div class="pb-deco-overlay" id="decoOverlay"></div>
+    <button class="pb-shutter" id="shutterBtn" onclick="takePhoto()">📷</button>
+  </div>
+
+  <div class="pb-countdown" id="countdown"></div>
+  <canvas id="canvas" style="display:none;"></canvas>
+</div>
+
+<!-- STEP 4: HASIL -->
+<div class="pb-wrap" id="stepResult" style="display:none;">
+  <p class="eyebrow">✦ nocturnal</p>
+  <h2 class="page-title">your moment ✦</h2>
+
+  <div class="pb-result">
+    <div class="pb-strip" id="strip"></div>
+  </div>
+
+  <div class="pb-actions">
+    <button class="pb-btn-save"   onclick="saveStrip()">💾 download</button>
+    <button class="pb-btn-upload" onclick="uploadStrip()">☁️ upload</button>
+    <button class="pb-btn-delete" id="btnDeleteCloud"
+            onclick="deleteStrip()" style="display:none;">🗑️ hapus</button>
+    <button class="pb-btn-retake" onclick="retake()">↩ retake</button>
+  </div>
+  <p class="pb-upload-status" id="uploadStatus"></p>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery-wrap" id="gallerySection">
+  <p class="eyebrow">✦ uploaded moments</p>
   <div class="gallery" id="gallery"></div>
 </div>
 
@@ -30,12 +85,8 @@ const supabaseClient = createClient(
   "sb_publishable_2O18NtGThhCRupWuDryOPw_b8VJQ4_5"
 );
 </script>
+<script src="photobooth.js"></script>
 <script src="gallery.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    initGallery("photobooth");
-  });
-</script>
 <script src="main.js"></script>
 </body>
 </html>

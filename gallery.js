@@ -1,10 +1,21 @@
 const namaList = [
   "Rehan", "Daman", "Leony", "Ninis", "Ehsan",
-  "Angga", "Jidun", "Cesta", "Sanjaya", "Claudya",
+  "Suway", "Jidun", "Cesta", "Sanjaya", "Claudya",
   "Arya", "Vivi", "Cesa", "Vina", "Natasya"
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
+  const gallery = document.getElementById("gallery");
+  if (!gallery) return;
+
+  const isPhotobooth = document.querySelector(".page-photobooth");
+
+  if (isPhotobooth) {
+    // photobooth: load gallery tapi TANPA upload box
+    initGallery("photobooth", false);
+    return;
+  }
+
   const params = new URLSearchParams(window.location.search);
   const folder = params.get("id") || "default";
 
@@ -13,10 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
     titleEl.textContent = namaList[parseInt(folder) - 1] || "gallery";
   }
 
-  initGallery(folder);
+  // gallery biasa: dengan upload box
+  initGallery(folder, true);
 });
 
-window.initGallery = async function (folder) {
+window.initGallery = async function (folder, showUpload = true) {
   const gallery = document.getElementById("gallery");
   if (!gallery) return;
 
@@ -30,14 +42,15 @@ window.initGallery = async function (folder) {
   gallery.addEventListener("drop", async (e) => {
     e.preventDefault();
     gallery.style.background = "";
+    if (!showUpload) return;
     const files = Array.from(e.dataTransfer.files);
     for (const file of files) await uploadFile(file, folder);
-    loadImages(folder);
+    loadImages(folder, showUpload);
   });
 
-  loadImages(folder);
+  await loadImages(folder, showUpload);
 
-  async function loadImages(folder) {
+  async function loadImages(folder, showUpload) {
     gallery.innerHTML = "";
 
     try {
@@ -63,7 +76,10 @@ window.initGallery = async function (folder) {
       console.warn(err);
     }
 
-    createUploadBox(folder);
+    // Upload box hanya untuk gallery biasa, bukan photobooth
+    if (showUpload) {
+      createUploadBox(folder, showUpload);
+    }
   }
 
   async function uploadFile(file, folder) {
@@ -74,7 +90,10 @@ window.initGallery = async function (folder) {
     if (error) alert("Upload gagal: " + error.message);
   }
 
-  function createUploadBox(folder) {
+  function createUploadBox(folder, showUpload) {
+    const existing = gallery.querySelector(".img-placeholder");
+    if (existing) existing.remove();
+
     const box = document.createElement("div");
     box.className = "img-placeholder";
     box.innerText = "add photo";
@@ -89,7 +108,7 @@ window.initGallery = async function (folder) {
     input.onchange = async (e) => {
       const files = Array.from(e.target.files);
       for (const file of files) await uploadFile(file, folder);
-      loadImages(folder);
+      loadImages(folder, showUpload);
     };
 
     gallery.appendChild(box);
