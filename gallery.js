@@ -1,6 +1,6 @@
 const namaList = [
   "Rehan", "Daman", "Leony", "Ninis", "Ehsan",
-  "Suway", "Jidun", "Cesta", "Sanjaya", "Claudya",
+  "Angga", "Jidun", "Cesta", "Sanjaya", "Claudya",
   "Arya", "Vivi", "Cesa", "Vina", "Natasya"
 ];
 
