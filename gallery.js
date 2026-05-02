@@ -1,7 +1,7 @@
 const namaList = [
   "Rehan", "Daman", "Leony", "Ninis", "Ehsan",
-  "Angga", "Jidun", "Cesta", "Sanjaya", "Claudya",
-  "Arya", "Vivi", "Cesa", "Vina", "Natasya", "Cipa"
+  "Angga", "Wildan", "Cesta", "Sanjaya", "Claudya",
+  "Arya", "Vivi", "Cesa", "Vina", "Natasya", "Keysha"
 ];
 
 document.addEventListener("DOMContentLoaded", () => {

@@ -36,8 +36,8 @@ const menuContainer = document.getElementById("menuContainer");
 if (menuContainer) {
   const namaButton = [
     "Rehan", "Daman", "Leony", "Ninis", "Ehsan",
-    "Angga", "Jidun", "Cesta", "Sanjaya", "Claudya",
-    "Arya", "Vivi", "Cesa", "Vina", "Natasya", "Cipa"
+    "Angga", "Wildan", "Cesta", "Sanjaya", "Claudya",
+    "Arya", "Vivi", "Cesa", "Vina", "Natasya", "Keysha"
   ];
 
   namaButton.forEach((nama, i) => {
