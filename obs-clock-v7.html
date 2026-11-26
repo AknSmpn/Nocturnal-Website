@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>OBS Clock v7</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  background:transparent;
+  width:100vw;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  padding:24px 0 24px;
+  overflow:hidden;
+  font-family:'Orbitron',monospace;
+}
+
+.outline{
+  color:#ffffff;
+  -webkit-text-stroke:2.5px #000000;
+  paint-order:stroke fill;
+  text-shadow:
+    2px  2px 0 #000,
+   -2px  2px 0 #000,
+    2px -2px 0 #000,
+   -2px -2px 0 #000,
+    3px  0   0 #000,
+   -3px  0   0 #000,
+    0    3px 0 #000,
+    0   -3px 0 #000;
+}
+
+.outline-sm{
+  color:#ffffff;
+  -webkit-text-stroke:1.5px #000000;
+  paint-order:stroke fill;
+  text-shadow:
+    1px  1px 0 #000,
+   -1px  1px 0 #000,
+    1px -1px 0 #000,
+   -1px -1px 0 #000,
+    2px  0   0 #000,
+   -2px  0   0 #000,
+    0    2px 0 #000,
+    0   -2px 0 #000;
+}
+
+.hud{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  padding:12px 16px;  /* ruang ekstra agar outline tidak terpotong */
+}
+
+.top-bar{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+  padding-left:3px;
+}
+.top-bar .tag{
+  font-family:'Share Tech Mono',monospace;
+  font-size:9px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+}
+.top-bar .line{
+  flex:1;
+  height:1.5px;
+  background:#ffffff;
+  max-width:120px;
+  box-shadow:0 0 0 1px #000;
+}
+
+.time-wrap{
+  display:flex;
+  align-items:flex-end;
+  gap:0;
+  line-height:1;
+}
+
+.digit-pair{
+  display:flex;
+  width:172px;
+  justify-content:center;
+  overflow:visible;
+}
+
+.digits{
+  font-size:110px;
+  font-weight:900;
+  letter-spacing:-4px;
+  line-height:0.85;
+  font-variant-numeric:tabular-nums;
+  text-align:center;
+  width:172px;
+}
+
+.digits.glitch{
+  animation:glitch 0.15s steps(2) forwards;
+}
+@keyframes glitch{
+  0%  {clip-path:inset(20% 0 60% 0);transform:translateX(-3px);}
+  25% {clip-path:inset(60% 0 10% 0);transform:translateX(3px);}
+  50% {clip-path:inset(40% 0 30% 0);transform:translateX(-2px);}
+  75% {clip-path:none;transform:none;}
+  100%{clip-path:none;transform:none;}
+}
+
+.colon{
+  font-size:110px;
+  font-weight:900;
+  line-height:0.85;
+  width:36px;
+  text-align:center;
+  flex-shrink:0;
+  animation:colblink 1s step-start infinite;
+}
+@keyframes colblink{
+  0%,100%{opacity:1;}
+  50%{opacity:0.15;}
+}
+
+.sec-block{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  padding-left:16px;
+  padding-bottom:16px;
+  gap:4px;
+  width:80px;
+  flex-shrink:0;
+}
+.sec-digits{
+  font-size:38px;
+  font-weight:900;
+  letter-spacing:-1px;
+  line-height:1;
+  font-variant-numeric:tabular-nums;
+  width:64px;
+  display:inline-block;
+}
+.sec-tag{
+  font-family:'Share Tech Mono',monospace;
+  font-size:9px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+
+.bottom-bar{
+  display:flex;
+  align-items:stretch;
+  gap:0;
+  margin-top:10px;
+}
+
+.date-block{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  border-left:2.5px solid #ffffff;
+  box-shadow:-1.5px 0 0 #000, -3px 0 0 #0005;
+  padding-left:12px;
+}
+
+.date-main{
+  font-family:'Share Tech Mono',monospace;
+  font-size:18px;
+  letter-spacing:3px;
+}
+
+.date-day{
+  font-family:'Share Tech Mono',monospace;
+  font-size:10px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  margin-top:3px;
+  opacity:0.7;
+}
+
+.sec-bar-wrap{
+  margin-left:auto;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  justify-content:flex-end;
+  padding-left:24px;
+  gap:5px;
+}
+
+.prog-bar{
+  width:160px;
+  height:3px;
+  background:rgba(0,0,0,0.2);
+  border-radius:2px;
+  overflow:hidden;
+  outline:1px solid #000;
+}
+.prog-fill{
+  height:100%;
+  background:#ffffff;
+  transition:width 0.25s linear;
+  border-radius:2px;
+}
+
+.sec-val{
+  font-family:'Share Tech Mono',monospace;
+  font-size:10px;
+  letter-spacing:2px;
+}
+
+.bracket{
+  position:absolute;
+  width:16px;height:16px;
+  border-color:#ffffff;
+  border-style:solid;
+  filter:drop-shadow(0 0 1px #000) drop-shadow(0 0 2px #000);
+}
+.bracket.tl{top:0;left:0;border-width:2px 0 0 2px;}
+.bracket.tr{top:0;right:0;border-width:2px 2px 0 0;}
+.bracket.bl{bottom:0;left:0;border-width:0 0 2px 2px;}
+.bracket.br{bottom:0;right:0;border-width:0 2px 2px 0;}
+</style>
+</head>
+<body>
+
+<!-- slot atas (kosong, bisa diisi widget lain) -->
+<div></div>
+
+<!-- jam di tengah -->
+<div class="hud">
+  <div class="bracket tl"></div>
+  <div class="bracket tr"></div>
+  <div class="bracket bl"></div>
+  <div class="bracket br"></div>
+
+  <div class="top-bar">
+    <div class="tag outline-sm">SYS.TIME</div>
+    <div class="line"></div>
+  </div>
+
+  <div class="time-wrap">
+    <div class="digit-pair">
+      <div class="digits outline" id="hh">00</div>
+    </div>
+    <div class="colon outline" id="colon">:</div>
+    <div class="digit-pair">
+      <div class="digits outline" id="mm">00</div>
+    </div>
+    <div class="sec-block">
+      <div class="sec-digits outline" id="ss">00</div>
+      <div class="sec-tag outline-sm">SEC</div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="date-block">
+      <div class="date-main outline-sm" id="datefull">-- --- ----</div>
+      <div class="date-day outline-sm" id="dayname">-------</div>
+    </div>
+    <div class="sec-bar-wrap">
+      <div class="sec-val outline-sm" id="secval">00s</div>
+      <div class="prog-bar"><div class="prog-fill" id="prog"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- slot bawah (kosong) -->
+<div></div>
+
+<script>
+const DAYS=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const MON=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+function pad(n){return String(n).padStart(2,'0');}
+let prevS=-1;
+
+function tick(){
+  const now=new Date();
+  const h=now.getHours(),m=now.getMinutes(),s=now.getSeconds();
+  const hp=pad(h),mp=pad(m),sp=pad(s);
+
+  if(s!==prevS){
+    if(s%10===0){
+      const el=document.getElementById('hh');
+      el.classList.remove('glitch');
+      void el.offsetWidth;
+      el.classList.add('glitch');
+      setTimeout(()=>el.classList.remove('glitch'),160);
+    }
+    prevS=s;
+  }
+
+  document.getElementById('hh').textContent=hp;
+  document.getElementById('mm').textContent=mp;
+  document.getElementById('ss').textContent=sp;
+  document.getElementById('secval').textContent=sp+'s';
+
+  const d=now.getDate(),mo=now.getMonth(),y=now.getFullYear();
+  document.getElementById('datefull').textContent=pad(d)+' '+MON[mo]+' '+y;
+  document.getElementById('dayname').textContent=DAYS[now.getDay()];
+  document.getElementById('prog').style.width=((s/59)*100)+'%';
+}
+
+tick();
+setInterval(tick,1000);
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 const namaList = [
   "Rehan", "Daman", "Leony", "Ninis", "Ehsan",
   "Angga", "Wildan", "Cesta", "Sanjaya", "Claudya",
-  "Arya", "Vivi", "Cesa", "Vina", "Natasya", "Keysha", "Gina"
+  "Arya", "Vivi", "Cesa", "Vina", "Vell", "Keysha", "Gina", "Unknown"
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -123,4 +123,13 @@ window.showPopup = function (src) {
 
 window.closePopup = function () {
   document.getElementById("popup").style.display = "none";
+
+  const titleEl = document.getElementById("galleryTitle");
+  if (titleEl) {
+    if (folder === "fotbar") {
+      titleEl.textContent = "Fotbar";
+    } else if (!isNaN(folder)) {
+      titleEl.textContent = namaList[parseInt(folder) - 1] || "gallery";
+    }
+  }
 };

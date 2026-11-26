@@ -37,7 +37,7 @@ if (menuContainer) {
   const namaButton = [
     "Rehan", "Daman", "Leony", "Ninis", "Ehsan",
     "Angga", "Wildan", "Cesta", "Sanjaya", "Claudya",
-    "Arya", "Vivi", "Cesa", "Vina", "Natasya", "Keysha", "Gina"
+    "Arya", "Vivi", "Cesa", "Vina", "Vell", "Keysha", "Gina", "Unknown"
   ];
 
   namaButton.forEach((nama, i) => {
@@ -48,4 +48,8 @@ if (menuContainer) {
     btn.onclick = () => goGallery(i + 1);
     menuContainer.appendChild(btn);
   });
+
+  window.goToFotbar = function () {
+  window.location.href = "gallery.html?id=fotbar";
+};
 }
